@@ -1,6 +1,6 @@
 import {gql} from 'apollo-boost';
 
-import { addItemToCart } from './cart.utils';
+import { addItemToCart, getCartItemCount  } from './cart.utils';
 
 //extend means it will extend (modify) in the existing type Mutation that might exist
 //If if does not exist then will create a new Mutation
@@ -24,13 +24,20 @@ const GET_CART_HIDDEN = gql`
 {
     cartHidden @client
 }
-`
+`;
 
 const GET_CART_ITEMS = gql`
 {
     cartItems @client
 }
-`
+`;
+
+const GET_CART_ITEM_COUNT = gql`
+    {
+        itemCount @client
+    }
+`;
+
 
 //inside resolvers, we write all the mutations or queries or additional types we might have at client side cache that apollo has access to
 //this toggleCartHidden is the actual mutation definition while TogglecartHidden above was a type definition and type definition we write in capital
@@ -74,6 +81,11 @@ export const resolvers = {
             cache.writeQuery({
                 query:GET_CART_ITEMS,
                 data: {cartItems: newCartItems}
+            });
+
+            cache.writeQuery({
+                query : GET_CART_ITEM_COUNT,
+                data : { itemCount : getCartItemCount(newCartItems)}
             });
             
             return newCartItems;
