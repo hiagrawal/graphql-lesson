@@ -9,12 +9,12 @@ import { addItemToCart } from './cart.utils';
 //so here we are extendng Item type which is already there on backend graphql server and adding the quantity type also which is of Integer
 export const typeDefs = gql`
     extend type Item {
-        quantity: Int
+        quantity : Int
     }
 
     extend type Mutation{
         ToggleCartHidden: Boolean!,
-        addItemToCart(item: Item!) : [Item]!
+        AddItemToCart(item : Item!) : [Item]!
     }
 `;
 
@@ -73,7 +73,7 @@ export const resolvers = {
 
             cache.writeQuery({
                 query:GET_CART_ITEMS,
-                data: {cartItems: !newCartItems}
+                data: {cartItems: newCartItems}
             });
             
             return newCartItems;
