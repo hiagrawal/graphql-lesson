@@ -30,7 +30,7 @@ export const resolvers = {
         toggleCartHidden: (_root, _args, {cache}) => {
             //so query will return the cartHidden value as an object in data so we can destructure the same and get cartHidden
             // const data = cache.readQuery({
-            const {cartHIdden} = cache.readQuery({
+            const {cartHidden} = cache.readQuery({
                 query: GET_CART_HIDDEN
                 //variables: {}
                 //can give variables like this also, in case we had variables to pass on while querying
@@ -42,11 +42,11 @@ export const resolvers = {
             //so it will update the local state cache cartHidden value to false on toggleCartHidden
             cache.writeQuery({
                 query:GET_CART_HIDDEN,
-                data: {cartHIdden: !cartHIdden}
+                data: {cartHidden: !cartHidden}
             });
 
             //and now this toggleCartHidden also needs to return a boolean value so it will return the updated cartHidden value
-            return !cartHIdden;
+            return !cartHidden;
         }
         
     }
