@@ -1,11 +1,20 @@
 import {gql} from 'apollo-boost';
 
-//extend means it will extend (modify) in the existing type mutation that might exist
+import { addItemToCart } from './cart.utils';
+
+//extend means it will extend (modify) in the existing type Mutation that might exist
 //If if does not exist then will create a new Mutation
 //Here we are creating a ToggleCartHidden mutation that will return a boolean value
+
+//so here we are extendng Item type which is already there on backend graphql server and adding the quantity type also which is of Integer
 export const typeDefs = gql`
+    extend type Item {
+        quantity: Int
+    }
+
     extend type Mutation{
-        ToggleCartHidden: Boolean!
+        ToggleCartHidden: Boolean!,
+        addItemToCart(item: Item!) : [Item]!
     }
 `;
 
@@ -14,6 +23,12 @@ export const typeDefs = gql`
 const GET_CART_HIDDEN = gql`
 {
     cartHidden @client
+}
+`
+
+const GET_CART_ITEMS = gql`
+{
+    cartItems @client
 }
 `
 
@@ -47,6 +62,21 @@ export const resolvers = {
 
             //and now this toggleCartHidden also needs to return a boolean value so it will return the updated cartHidden value
             return !cartHidden;
+        },
+
+        addItemToCart : (_root, {item}, {cache}) => {
+            const {cartItems} = cache.readQuery({
+                query: GET_CART_ITEMS
+            });
+
+            const newCartItems  = addItemToCart(cartItems, item);
+
+            cache.writeQuery({
+                query:GET_CART_ITEMS,
+                data: {cartItems: !newCartItems}
+            });
+            
+            return newCartItems;
         }
         
     }

@@ -45,7 +45,8 @@ const client = new ApolloClient({
 //And we are doing this in index.js because we want data when the applications loads
 client.writeData({
   data: {
-    cartHidden: true
+    cartHidden: true,
+    cartItems: []
   }
 });
 
