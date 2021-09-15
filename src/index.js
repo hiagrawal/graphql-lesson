@@ -13,6 +13,7 @@ import { store, persistor } from './redux/store';
 
 import './index.css';
 import App from './App';
+import {typeDefs, resolvers} from './graphql/resolvers';
 
 const httpLink = createHttpLink({
   uri: 'https://crwn-clothing.com/'
@@ -21,9 +22,12 @@ const httpLink = createHttpLink({
 
 const cache = new InMemoryCache();
 
+//by adding typeDefs and resolvers in client, client has now access to the new mutations that we wrote
 const client = new ApolloClient({
   link : httpLink,
-  cache
+  cache,
+  typeDefs,
+  resolvers
 });
 
 // client.query({
@@ -36,6 +40,14 @@ const client = new ApolloClient({
 //   }
 //   `
 // }).then(res => console.log(res));
+
+//This is how we are creating and initiating a local state like we used to do in reducers
+//And we are doing this in index.js because we want data when the applications loads
+client.writeData({
+  data: {
+    cartHidden: true
+  }
+});
 
 ReactDOM.render(
 <ApolloProvider client={client}>
