@@ -25,7 +25,8 @@ const GET_COLLECTIONS = gql`
         }
     }
 }
-`
+`;
+
 const CollectionsOverviewContainer = () => (
     <Query query={GET_COLLECTIONS}>
        {
@@ -33,8 +34,8 @@ const CollectionsOverviewContainer = () => (
                console.log({loading});
                console.log({error});
                console.log({data});
-               if(loading) return <Spinner></Spinner>
-               return <CollectionsOverview collections = {data.collections}></CollectionsOverview>
+               if(loading) return <Spinner />
+               return <CollectionsOverview collections = {data.collections} />
 
            }
        } 
@@ -42,3 +43,7 @@ const CollectionsOverviewContainer = () => (
 )
 
 export default CollectionsOverviewContainer;
+
+//created new collections container to fetch the data from graphql using apollo 
+//and passing that data to collections component instaed of fetching from redux 
+//and calling collections container in shop page to load collections container first which in turn call collections overview

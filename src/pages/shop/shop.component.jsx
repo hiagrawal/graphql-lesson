@@ -3,9 +3,11 @@ import { Route } from 'react-router-dom';
 
 //import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
 import {default as CollectionsOverview} from '../../components/collections-overview/collections-overview.container';
-//importing CollectionOverviewContainer only as CollectionOverview so we don't have to change our code
+//importing CollectionsOverviewContainer only as CollectionsOverview so we don't have to change our code
 
-import CollectionPage from '../collection/collection.component';
+// import CollectionPage from '../collection/collection.component';
+import {default as CollectionPage} from '../collection/collection.container';
+//importing CollectionPageContainer only as CollectionPage so we don't have to change our code
 
 const ShopPage = ({ match }) => (
   <div className='shop-page'>
